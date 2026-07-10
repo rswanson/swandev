@@ -1,0 +1,16 @@
+[
+  {"query": "judge the findings files in .reviews/2026-07-09-141530-auth-refactor/", "should_trigger": true},
+  {"query": "which of these adversarial review findings are actually real and worth fixing", "should_trigger": true},
+  {"query": "here are three findings files from the reviewers, dedup and verify them against the code", "should_trigger": true},
+  {"query": "score these review findings and dispatch fixes for the ones i approve", "should_trigger": true},
+  {"query": "evaluate the prosecution's findings and throw out the bogus ones", "should_trigger": true},
+  {"query": "the adversarial reviewers finished, run judgment on their output", "should_trigger": true},
+  {"query": "review this diff before i merge it", "should_trigger": false},
+  {"query": "adversarial review this PR", "should_trigger": false},
+  {"query": "attack this diff from a security angle", "should_trigger": false},
+  {"query": "run the tribunal on my branch", "should_trigger": false},
+  {"query": "tear this change apart, i want every flaw", "should_trigger": false},
+  {"query": "implement task 3 from the plan", "should_trigger": false},
+  {"query": "is this PR ready to merge? give it a once-over", "should_trigger": false},
+  {"query": "the judge in our chess engine misscores endgames, debug it", "should_trigger": false}
+]

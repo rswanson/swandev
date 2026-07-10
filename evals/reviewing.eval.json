@@ -1,0 +1,22 @@
+[
+  {"query": "review this diff before i merge it", "should_trigger": true},
+  {"query": "can you code review the changes on my branch", "should_trigger": true},
+  {"query": "check my changes in components/builder for bugs and style", "should_trigger": true},
+  {"query": "does this implementation actually match the spec we wrote", "should_trigger": true},
+  {"query": "is this PR ready to merge? give it a once-over first", "should_trigger": true},
+  {"query": "review task 3's implementation against its requirements", "should_trigger": true},
+  {"query": "go over the diff on this branch and flag anything sketchy", "should_trigger": true},
+  {"query": "look at my changes and tell me if they're solid before i push", "should_trigger": true},
+  {"query": "open a PR for this branch", "should_trigger": false},
+  {"query": "ship it, let's get this merged", "should_trigger": false},
+  {"query": "the cargo test panics on nil, why", "should_trigger": false},
+  {"query": "implement task 3 from the plan", "should_trigger": false},
+  {"query": "write the code for the stack-name validator", "should_trigger": false},
+  {"query": "let's design a new caching layer, not sure on the shape", "should_trigger": false},
+  {"query": "execute the whole plan and parallelize it", "should_trigger": false},
+  {"query": "the test won't pass no matter what, help me debug it", "should_trigger": false},
+  {"query": "adversarial review this PR", "should_trigger": false},
+  {"query": "red-team this diff and tear it apart", "should_trigger": false},
+  {"query": "run the tribunal on my branch", "should_trigger": false},
+  {"query": "judge the findings files from the adversarial review", "should_trigger": false}
+]

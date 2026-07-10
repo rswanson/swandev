@@ -1,0 +1,18 @@
+{
+  "name": "swandev-dev",
+  "description": "Marketplace for the swandev development-workflow skills plugin",
+  "owner": {
+    "name": "Swanny"
+  },
+  "plugins": [
+    {
+      "name": "swandev",
+      "description": "Development workflow skills: brainstorming, planning, parallel-first execution, test-driven implementation (with an atomic-change fast path), two-stage reviewing, systematic debugging, and PR creation, plus an adversarial review pipeline (multi-lens prosecutors, verifying judge, user-gated fix dispatch).",
+      "version": "0.3.0",
+      "source": "./",
+      "author": {
+        "name": "Swanny"
+      }
+    }
+  ]
+}
