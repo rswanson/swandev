@@ -1,6 +1,6 @@
 ---
 name: tribunal
-description: Use this to run a FULL ADVERSARIAL REVIEW PIPELINE on a diff/branch/PR — fan out parallel single-lens swandev:prosecuting agents (correctness, API ergonomics, architectural drift, security, performance, test adequacy), then hand all findings files to one swandev:judging pass (verify → user gate → dispatch fixes). This is the heavyweight, explicitly-invoked deep audit. Trigger on "adversarial review", "red-team this diff/PR", "tear this apart", "run the tribunal", "deep audit this change". Do NOT trigger for an ordinary review ("review this diff", "check my changes", "is this ready" — that's swandev:reviewing, the fast high-signal gate), for a single-lens attack (that's swandev:prosecuting), or when findings files already exist and only need judging (that's swandev:judging).
+description: Use this to run a FULL ADVERSARIAL REVIEW PIPELINE on a diff/branch/PR — fan out parallel single-lens swandev:prosecuting agents (correctness, API ergonomics, architectural drift, security, performance, test adequacy, merge-worthiness), then hand all findings files to one swandev:judging pass (verify → user gate → dispatch fixes). This is the heavyweight, explicitly-invoked deep audit. Trigger on "adversarial review", "red-team this diff/PR", "tear this apart", "run the tribunal", "deep audit this change". Do NOT trigger for an ordinary review ("review this diff", "check my changes", "is this ready" — that's swandev:reviewing, the fast high-signal gate), for a single-lens attack (that's swandev:prosecuting), or when findings files already exist and only need judging (that's swandev:judging).
 ---
 
 # Tribunal
@@ -19,10 +19,11 @@ fixes. You do the scoping and fan-out; `swandev:prosecuting` does the attacking;
 
 ## 2. Select lenses
 
-All six by default: correctness, api-ergonomics, architectural-drift,
-security-failure-modes, performance, test-adequacy. Drop only obviously
-irrelevant ones (docs-only diff → drop test-adequacy and performance) and TELL
-the user which were dropped and why.
+All seven by default: correctness, api-ergonomics, architectural-drift,
+security-failure-modes, performance, test-adequacy, merge-worthiness. Drop only
+obviously irrelevant ones (docs-only diff → drop test-adequacy and performance)
+and TELL the user which were dropped and why. Never drop merge-worthiness —
+every change defends its right to merge.
 
 ## 3. Fan out prosecutors (Workflow tool)
 
@@ -30,8 +31,10 @@ One `prosecuting` agent per lens, in parallel, with model tiering:
 
 - **Sonnet** (`model: 'sonnet'`): correctness, security-failure-modes,
   performance, test-adequacy — recall-oriented lenses where the judge filters.
-- **Session model** (omit `model`): architectural-drift, api-ergonomics — taste
-  lenses where cheap models produce nitpicks that waste judge time.
+- **Session model** (omit `model`): architectural-drift, api-ergonomics,
+  merge-worthiness — taste/judgment lenses where cheap models produce nitpicks
+  that waste judge time. merge-worthiness especially: arguing a change has no
+  right to exist takes holistic judgment, not pattern-matching.
 
 Skeleton (adapt scope/run-dir; keep meta a pure literal):
 
@@ -48,6 +51,7 @@ const LENSES = [
   { lens: 'test-adequacy', model: 'sonnet' },
   { lens: 'architectural-drift' },
   { lens: 'api-ergonomics' },
+  { lens: 'merge-worthiness' },
 ]
 phase('Prosecute')
 const paths = await parallel(LENSES.map(l => () =>

@@ -19,8 +19,8 @@ Read-only. Never fix, never soften. Your deliverable is a findings file.
   tree). Attack **only the diff plus the files it touches** — no free codebase
   roaming. Read surrounding code in touched files for context, nothing more.
 - **Lens:** ONE lens from the catalog, assigned by `swandev:tribunal` or the user.
-  Invoked standalone with no lens named? Cover all six in one file, one section
-  per lens.
+  Invoked standalone with no lens named? Cover all seven in one file, one
+  section per lens.
 - **Output path:** provided by tribunal (`.reviews/<run-id>/<lens>.findings.md`).
   Standalone: create `.reviews/<YYYY-MM-DD-HHMMSS>-<short-desc>/<lens>.findings.md`
   yourself, and ensure `.reviews/` is in the target repo's `.gitignore` (add it if
@@ -40,6 +40,16 @@ Read-only. Never fix, never soften. Your deliverable is a findings file.
    contexts, unbounded growth.
 6. **test-adequacy** — tests that assert mocks, missing regression coverage,
    untested paths, tautological assertions.
+7. **merge-worthiness** — the maximally adversarial lens: argue the change
+   should not be merged AT ALL. Not "this line is wrong" but "this diff has no
+   right to exist": the problem isn't worth solving, the approach is
+   fundamentally wrong and patching it entrenches the mistake, the complexity
+   added outweighs the value delivered, it duplicates something that already
+   exists, or it forecloses a better design. Merging is the position you attack;
+   build the strongest case for rejecting or rewriting instead of fixing.
+   Findings files for this lens add `motion: reject | rewrite` to the
+   frontmatter and open with a `## Motion` section stating the single strongest
+   argument against merging.
 
 ## Rules of engagement
 
