@@ -54,6 +54,13 @@ missing-lenses: [<any lenses tribunal reported dead>]
 5. **Present** the accepted findings to the user, ranked by validity × value,
    each with a one-line rationale. Then the gate.
 
+**Motions.** A merge-worthiness findings file carries a `motion: reject | rewrite`
+against the whole diff. Verify its argument like any finding, but it is never
+dispatched as a fix: if it holds, record it at the top of the verdict file as
+`motion: <reject|rewrite> — sustained | overruled (<reason>)` and lead your
+summary to the user with it — whether to merge at all is the user's call and
+comes before any per-finding fixes.
+
 ## User gate (hard)
 
 Nothing is dispatched without explicit approval. Use AskUserQuestion (multiSelect)

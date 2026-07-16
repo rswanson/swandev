@@ -48,8 +48,10 @@ tribunal ─→ N× prosecuting (parallel, one lens each) ─→ judging
 ```
 
 Cost tiering: mechanical lenses (correctness, security, performance, tests) run
-on Sonnet; taste lenses (architecture, API ergonomics) and the judge run on the
-session model. Artifacts land in a gitignored `.reviews/` directory.
+on Sonnet; taste lenses (architecture, API ergonomics, merge-worthiness) and the
+judge run on the session model. Artifacts land in a gitignored `.reviews/`
+directory. The merge-worthiness prosecutor argues the diff shouldn't merge at
+all; a sustained motion reaches the user before any per-finding fixes.
 
 ## Install
 
