@@ -1,6 +1,6 @@
 ---
 name: judging
-description: Use this to JUDGE adversarial-review findings files (produced by swandev:prosecuting) — dedup them, VERIFY every claim against the actual code, score validity × value, write a verdict file, present accepted findings for USER APPROVAL, then dispatch the approved fixes to Sonnet implementer subagents. Trigger when the user points at findings file(s) ("judge these findings", "which of these findings are real", "score the findings in .reviews/ and fix the good ones"), or when swandev:tribunal hands over a run directory. Do NOT trigger to GENERATE findings (that's swandev:prosecuting for one lens, swandev:tribunal for the full pipeline), or for a normal review of a diff with no findings files involved (that's swandev:reviewing).
+description: "Verify, score, and user-gate adversarial findings files, then dispatch and integrate approved fixes. Invoke explicitly, or handed over by swandev:tribunal."
 ---
 
 # Judging
@@ -29,7 +29,10 @@ interactivity.
    - **mis-states** — partially right; record the corrected claim;
    - **refuted** — the code contradicts the claim; record why.
    A prosecutor's quote is a pointer, not proof — always read the surrounding
-   code yourself.
+   code yourself. Where a claim is decidable by running something — won't
+   compile, test doesn't cover it, the repro fails — RUN it and record the
+   command and its output in the Verification field. An executed check outranks
+   any amount of reading.
 3. **Score.** For findings that hold (or mis-state but still matter):
    validity (does it hold as stated?) × value (is fixing it worth the change?),
    each high/medium/low. Accept only findings worth acting on; everything else
@@ -43,8 +46,8 @@ findings-files: [<paths>]
 missing-lenses: [<any lenses tribunal reported dead>]
 ---
 
-## F3 (correctness, security): <merged one-line claim>
-- **Verdict:** accepted | rejected | duplicate-of F1
+## correctness-F3 (also: security-F1): <merged one-line claim>
+- **Verdict:** accepted | rejected | duplicate-of <lens>-F1
 - **Verification:** what you read in the code and what it showed
 - **Validity/Value:** high/medium/low × high/medium/low
 - **Where:** path/to/file.rs:42
@@ -52,7 +55,11 @@ missing-lenses: [<any lenses tribunal reported dead>]
 ```
 
 5. **Present** the accepted findings to the user, ranked by validity × value,
-   each with a one-line rationale. Then the gate.
+   each with a one-line rationale. **Cap the list at 8.** If more than 8 were
+   accepted, present the top 8 and summarise the remainder as one line —
+   "N further accepted findings recorded in the verdict file, not dispatched" —
+   naming the file. The cap is on what you ASK about, never on what you verify
+   or record. Then the gate.
 
 **Motions.** A merge-worthiness findings file carries a `motion: reject | rewrite`
 against the whole diff. Verify its argument like any finding, but it is never
@@ -90,8 +97,13 @@ House rules:
 - **Verify each fix** yourself: does the change actually address the finding?
   If not, one re-dispatch with what was wrong; after that, report it unresolved
   with the failure output. No silent retry loops.
+- **Integrate.** Merge each group's branch back into the branch under review, one
+  at a time, then run the project's checks once on the integrated result. A
+  finding is NOT resolved until its commit is on that branch — fixes left sitting
+  in a worktree are the same as no fix at all. Report the commit shas.
 - If parallel groups conflict on merge, the grouping was wrong — stop and
   re-group (same rule as swandev:executing).
+- Control returns to whoever invoked you. Do not open or merge a PR.
 
 ## Malformed input
 

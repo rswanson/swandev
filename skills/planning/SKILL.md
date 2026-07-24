@@ -1,6 +1,6 @@
 ---
 name: planning
-description: Use this AFTER a design/spec has been approved (this session or earlier) and BEFORE writing any code, to turn that approved spec into a written, saved, step-by-step implementation plan document. Trigger when the user says "write/draft the plan", "break this into tasks/steps", "plan out the work from the spec", "what's the build order", "sequence the tasks", or right after a spec/design is approved with no implementation plan yet. If no approved design exists yet, defer to swandev:brainstorming; do NOT trigger when a plan already exists and the user is executing a specific task — that is swandev:tdd. Stops at the plan; hand off to swandev:tdd to execute it.
+description: "Turn an approved spec into a saved, wave-structured implementation plan. Invoke explicitly, after a design is approved and before any code."
 ---
 
 # Planning
@@ -55,6 +55,8 @@ Each step is ONE action (2–5 minutes), and commit frequently. (The full red→
 - **Type consistency:** names/signatures used in later tasks match earlier definitions.
 - **Wave correctness:** every Depends-on points to a task in an EARLIER wave; no two tasks in the same wave share a Touches path. Fix the grouping if either is violated.
 
-## Save and hand off
+## Present, save, hand off
 
-Save to `docs/plans/YYYY-MM-DD-<feature>.md`. Commit it. Then hand off to `swandev:executing`, which runs the plan's waves — independent tasks concurrently — dispatching each task to `swandev:tdd`. Do not write implementation code yourself; the plan is the deliverable.
+**Present the plan in the conversation before saving it.** Show the wave structure, the task list with one line each, and any decision you made on the user's behalf. A file path is not a presentation — never ask someone to approve a plan they have not been shown. Wait for approval; a plan is cheap to change now and expensive to change once `swandev:executing` has dispatched from it.
+
+Then save to `docs/plans/YYYY-MM-DD-<feature>.md` and commit it. Hand off to `swandev:executing`, which runs the plan's waves — independent tasks concurrently — dispatching each task to `swandev:tdd`. Do not write implementation code yourself; the plan is the deliverable.

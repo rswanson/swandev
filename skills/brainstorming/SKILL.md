@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: Use this BEFORE any creative work when no approved design/spec exists yet — deciding WHAT to build, WHETHER to build it, or the right approach/architecture/structure: designing a feature, adding functionality, building a component, changing behavior, choosing an architecture, or starting a new project. Trigger when the user says "let's build/design X", "I want to add", "I'm thinking about", "help me figure out", "what's the best way to", "how should we approach", "what would X look like", or describes something to create even without explicitly asking for a design. The idea→spec step; hand off to swandev:planning once a spec is approved. If the user already knows what to build and only wants tasks/steps/a breakdown, defer to swandev:planning; if they give a direct imperative to build a specific, clearly-scoped change (not an open-ended idea), defer to swandev:tdd. Don't write code or scaffold until a design is approved.
+description: "Turn an idea into an approved design spec through dialogue. Invoke explicitly, before building something whose shape is still undecided."
 ---
 
 # Brainstorming
@@ -17,17 +17,17 @@ Exception: if an approved design/spec already exists, or the user already knows 
 
 1. **Explore context** — read relevant files, docs, recent commits before asking anything.
 2. **Scope check** — if the request spans multiple independent subsystems, say so and help decompose into sub-projects before diving in. Each sub-project gets its own spec → plan → build cycle.
-3. **Ask one question at a time** — purpose, constraints, success criteria. Prefer multiple-choice. Never batch questions.
+3. **Ask one question at a time** — purpose, constraints, success criteria. Prefer multiple-choice. One AskUserQuestion call carries one question, even though the tool accepts four: the answer to each question changes what the next one should be, which is the entire point of a design dialogue. Batching turns an interview into a form. The only exception is genuinely independent facts with no bearing on each other.
 4. **Propose 2–3 approaches** — with trade-offs; lead with your recommendation and why.
 5. **Present the design in sections** — scaled to complexity. Get approval after each section. Cover architecture, components, data flow, error handling, testing.
 6. **Write the spec** — save to `docs/specs/YYYY-MM-DD-<topic>-design.md`. Create a git worktree FIRST (never edit on main) so nothing untracked lands on the main branch — confirm with `git worktree list`. Commit it as a DRAFT spec under review (approval at step 8 may produce follow-up commits).
 7. **Self-review the spec** — scan for placeholders, contradictions, ambiguity, scope creep. Fix inline.
-8. **User reviews the spec** — wait for approval. Make requested changes and re-review.
+8. **User reviews the spec** — **present it in the conversation before you ask.** Walk the user through what you wrote: the sections, the decisions taken, anything you resolved on their behalf. A file path is not a presentation — never ask someone to approve a document they have not been shown. Then wait for approval, make requested changes, and re-review.
 9. **Hand off** — invoke `swandev:planning`. That is the ONLY skill you invoke next.
 
 ## Principles
 
-- One question at a time. Multiple choice when possible.
+- One question at a time. Multiple choice when possible. Never present work for approval without showing it first.
 - YAGNI — cut unnecessary features from every design.
 - Always explore alternatives before settling.
 - Design in small units with clear boundaries: each should have one purpose, a defined interface, and be understandable on its own.

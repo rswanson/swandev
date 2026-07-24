@@ -44,14 +44,27 @@ confidence-filtered per-task gate and is never replaced by this):
 ```
 tribunal ─→ N× prosecuting (parallel, one lens each) ─→ judging
              writes .reviews/<run>/<lens>.findings.md      │
-                                       verify → user gate → Sonnet fixers
+                              verify → user gate → fixers → integrate
 ```
+
+**Cost control** is the design constraint on this branch, at three points:
+
+- **Lens selection** — four by default (correctness, security, architectural
+  drift, test adequacy). `api-ergonomics`, `performance` and `merge-worthiness`
+  are added only when the diff earns them; "run all seven" is an explicit ask.
+- **Prosecutor budget** — at most 10 findings per lens, with a severity floor.
+  The budget cuts low *value*, never low *confidence*: an uncertain-but-real
+  flaw still gets written down, because the judge is what filters.
+- **Judge gate** — at most 8 findings are put to the user at once; the rest stay
+  recorded in the verdict file rather than dispatched.
 
 Cost tiering: mechanical lenses (correctness, security, performance, tests) run
 on Sonnet; taste lenses (architecture, API ergonomics, merge-worthiness) and the
 judge run on the session model. Artifacts land in a gitignored `.reviews/`
 directory. The merge-worthiness prosecutor argues the diff shouldn't merge at
-all; a sustained motion reaches the user before any per-finding fixes.
+all; a sustained motion reaches the user before any per-finding fixes. Approved
+fixes are merged back into the branch under review — a finding isn't resolved
+until its commit is on that branch.
 
 ## Install
 

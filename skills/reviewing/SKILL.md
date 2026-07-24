@@ -1,6 +1,6 @@
 ---
 name: reviewing
-description: Use this to ASSESS a diff, branch, PR, or a just-completed task against its requirements and for code quality — a read-only review that produces a verdict, BEFORE shipping. Trigger when the user says "review this diff/branch/PR", "code review X", "check my changes", "does this match the spec", "is this ready, give it a once-over", or when swandev:executing finishes a task. Do NOT trigger to WRITE code or fixes (that's swandev:tdd), to diagnose an observed crash/test failure (that's swandev:debugging), to run final CI and actually open/merge the PR (that's swandev:pr), or for an aggressive adversarial deep audit ("adversarial review", "red-team this", "tear it apart", "run the tribunal" — that's swandev:tribunal). Invoked by swandev:executing per task, or standalone.
+description: "Read-only two-stage review of a diff or task: spec compliance first, then code quality. Invoke explicitly. Produces a verdict, not a fix."
 ---
 
 # Reviewing

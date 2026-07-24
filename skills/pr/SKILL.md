@@ -1,6 +1,6 @@
 ---
 name: pr
-description: Create a pull request with local CI validation. Use this skill whenever the user wants to create a PR, open a pull request, submit their work for review, push and create a PR, or says "/pr". Also use when the user says things like "I'm done, let's get this merged", "ship it", "ready for review", or "create a PR for this".
+description: "Create a pull request after running the project's checks locally and watching CI. Invoke explicitly, or via /pr."
 ---
 
 # PR Creation Skill
@@ -56,3 +56,9 @@ Types: `feat:` (new functionality), `fix:` (bug fix), `config:` (config/routing 
 ```
 
 After creation, report the PR URL and which CI workflows should trigger based on the changed paths.
+
+## Step 6: Watch CI to completion
+
+Predicting which workflows will run is not the same as knowing they passed. Run `gh pr checks --watch` in the background and report the terminal status. Never declare the PR done on a stale or pending check result.
+
+If a check fails, bring back the failing job's actual output, not a summary of it. Snapshot suites (Playwright, Jest) commonly fail on platform-specific snapshots generated elsewhere — if that's the cause, say so and offer to regenerate (`npx playwright test --update-snapshots` or the project's equivalent) rather than reporting it as a code defect.

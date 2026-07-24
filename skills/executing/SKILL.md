@@ -1,6 +1,6 @@
 ---
 name: executing
-description: Use this when you have an approved implementation plan (from swandev:planning) and want to IMPLEMENT THE WHOLE PLAN, not a single task. Trigger when the user says "execute the plan", "run the plan", "implement the plan", "let's build all of it", "start the implementation", "work through the plan/tasks", or kicks off a multi-task plan. Do NOT trigger for a single scoped task or one-off change ("implement task 3", "write the code for X") — that's swandev:tdd directly; or before an approved plan exists — that's swandev:planning or swandev:brainstorming.
+description: "Run an approved multi-task plan to completion, each wave's independent tasks in parallel worktrees. Invoke explicitly, for a whole plan rather than one task."
 ---
 
 # Executing Plans (parallel-first)

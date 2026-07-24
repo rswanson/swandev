@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use this when you are ABOUT TO WRITE CODE for a feature/bugfix that already has a plan or a clearly-scoped single change, BEFORE writing implementation code. Trigger when the user says "implement task N", "start/do task N", "next task", "write the code", "let's code this up", "build out X now"/"build it", or starts executing a plan task-by-task — a direct imperative to write code for a specific, clearly-scoped change is tdd whether or not a written plan exists. Also owns three NON-bug failure cases: the planned red-step failing test, compile/undefined-symbol errors from not-yet-written code, and new error-handling/resilience branches for expected external failures (flaky network, oversized input, rate limits). Do NOT trigger on "how should we implement X" or requests for steps/sequencing (that is swandev:planning), on brand-new feature requests where the approach is still undecided (that is swandev:brainstorming), or when code that should already work is failing for an unknown reason (that is swandev:debugging).
+description: "Implement one scoped task test-first: red, green, refactor, commit. Invoke explicitly, when writing the code for a single change."
 ---
 
 # Test-Driven Development

@@ -1,15 +1,20 @@
 ---
 name: prosecuting
-description: Use this to ATTACK a diff through ONE adversarial lens and write a structured findings file — an exhaustive, aggressive case for why the change is bad, with NO confidence filter (swandev:judging filters, not you). Trigger on single-angle attack requests ("attack this diff from an API-ergonomics angle", "prosecute this diff for correctness", "harshest possible case against this change, security only"), or when swandev:tribunal dispatches you with an assigned lens. Do NOT trigger for a balanced high-signal review ("review this diff", "check my changes" — that's swandev:reviewing), for the full multi-lens pipeline ("adversarial review", "red-team this PR", "run the tribunal" — that's swandev:tribunal), or to evaluate/filter existing findings files (that's swandev:judging).
+description: "Attack a diff through ONE adversarial lens and write a structured findings file. Invoke explicitly, or dispatched by swandev:tribunal."
 ---
 
 # Prosecuting
 
 Build the strongest possible case that this change is bad. You are the prosecution,
-not the judge: exhaustive and aggressive, with **no confidence filter**. Every
-suspicion gets written down with its best supporting argument. Filtering is
-`swandev:judging`'s job — a false positive costs a judge rejection; a dropped real
-flaw costs a shipped bug.
+not the judge: aggressive, and biased toward recall. A false positive costs a judge
+rejection; a dropped real flaw costs a shipped bug — so when a suspicion is real but
+you cannot prove it, write it down and say "possibly" rather than dropping it.
+
+**But recall is not volume.** The judge's attention is the scarce resource in this
+pipeline, and a findings file padded with speculation spends it on nothing. You are
+filtered by a budget, not by confidence: within the budget below, argue everything
+you can evidence; the low-value material is what gets cut, never the uncertain
+material.
 
 Read-only. Never fix, never soften. Your deliverable is a findings file.
 
@@ -53,11 +58,20 @@ Read-only. Never fix, never soften. Your deliverable is a findings file.
 
 ## Rules of engagement
 
-- Argue **every** suspicion. Assign severity honestly (critical / major / minor)
-  but never drop a finding for low confidence — say "possibly" in the claim and
-  let the judge decide.
+- **Budget: at most 10 findings.** If you have more, keep the 10 most severe and
+  drop the rest — a finding cut for the budget is not worth a line of apology.
+- **Severity floor.** Report `critical` and `major` freely. Report `minor` only
+  if you are under budget after them. Never report something below `minor`:
+  style opinions the linter owns, hypotheticals with no code path, or
+  restatements of the diff are not findings.
+- Assign severity honestly, and never drop a finding for low *confidence* — say
+  "possibly" in the claim and let the judge decide. The budget cuts low value,
+  not low certainty; those are different axes and only one of them is yours.
 - Every finding needs **evidence**: quote the actual code or observed behavior.
   A claim without a quote is a finding the judge will toss unread.
+- If you hit the budget, say so in one line at the end of the file
+  ("budget reached; N further findings not developed") so the judge knows the
+  lens was truncated rather than exhausted.
 - Stay in your lens. Out-of-lens observations go in a final `## Out of lens`
   list, one line each, undeveloped.
 - Suggested fixes are optional, one line, directional only.
@@ -69,9 +83,13 @@ Read-only. Never fix, never soften. Your deliverable is a findings file.
 lens: <lens-name>
 scope: <e.g. git diff main...HEAD>
 commit: <sha reviewed>
+motion: <reject | rewrite>   # merge-worthiness lens ONLY; omit for every other lens
 ---
 
-## F1: <one-line claim>
+## Motion                    # merge-worthiness lens ONLY
+<the single strongest argument that this diff should not be merged at all>
+
+## <lens>-F1: <one-line claim>
 - **Where:** path/to/file.rs:42
 - **Severity:** critical | major | minor
 - **Claim:** what is wrong and why it matters
@@ -79,5 +97,7 @@ commit: <sha reviewed>
 - **Suggested fix:** concrete direction (optional)
 ```
 
-Number findings F1..Fn sequentially. Finish by returning the findings file path —
-that path IS your output.
+Number findings `<lens>-F1..Fn` sequentially — prefixed with your lens name, so a
+multi-lens run doesn't produce seven different `F1`s for the judge to disambiguate.
+
+Finish by returning the findings file path — that path IS your output.
