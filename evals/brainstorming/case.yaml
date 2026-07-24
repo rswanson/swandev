@@ -1,0 +1,59 @@
+# Routing cases for swandev:brainstorming
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill brainstorming
+
+skill: swandev:brainstorming
+cases:
+  - prompt: "let's build a little dashboard to track our Pulumi stack drift over time"
+    expect: swandev:brainstorming
+    tags: [smoke]
+  - prompt: "i want to add a retry wrapper around our RPC client, thinking exponential backoff"
+    expect: swandev:brainstorming
+  - prompt: "help me figure out how to structure a new CLI for bulk-renaming files"
+    expect: swandev:brainstorming
+  - prompt: "thinking about adding a caching layer to the explorer service, not sure how yet"
+    expect: swandev:brainstorming
+  - prompt: "we should design the new auth flow for the signet website before i touch code"
+    expect: swandev:brainstorming
+  - prompt: "i've got a rough idea for a peon-ping style notifier for CI failures, wanna flesh it out"
+    expect: swandev:brainstorming
+  - prompt: "let's create a component that wraps the builder and explorer into one stack"
+    expect: swandev:brainstorming
+  - prompt: "what's the best way to model multi-tenant config in the-iam stack? haven't figured out the shape yet"
+    expect: swandev:brainstorming
+  - prompt: "We need to design the multi-tenant configuration model for the-iam stack before any code is written."
+    expect: swandev:brainstorming
+  - prompt: "wanna spin up a brand new pulumi stack for staging dns, greenfield, no idea on layout yet"
+    expect: swandev:brainstorming
+  - prompt: "i want to change how the explorer dedupes events — right now it double-counts, lets redesign that behavior"
+    expect: swandev:brainstorming
+  - prompt: "i wanna add some kinda retry/backoff thing to teh rpc client but havent figured out the approach yet"
+    expect: swandev:brainstorming
+  - prompt: "lets buld a small go cli to bulk-rename the-stacks fixtures, not sure on the flags yet"
+    expect: swandev:brainstorming
+  - prompt: "fix the failing go test in components/builder, it panics on nil"
+    expect_not: swandev:brainstorming
+    tags: [smoke]
+  - prompt: "what does this clippy warning about borrowed value mean"
+    expect_not: swandev:brainstorming
+  - prompt: "run cargo fmt and push the changes"
+    expect_not: swandev:brainstorming
+  - prompt: "open a PR for the branch i'm on"
+    expect_not: swandev:brainstorming
+  - prompt: "explain how the existing dns stack resolves records"
+    expect_not: swandev:brainstorming
+  - prompt: "the pulumi preview is showing an unexpected delete, why"
+    expect_not: swandev:brainstorming
+  - prompt: "rename this variable across the file"
+    expect_not: swandev:brainstorming
+  - prompt: "the auth-flow spec is approved, now turn it into a step-by-step plan"
+    expect_not: swandev:brainstorming
+  - prompt: "spec's done, break the multi-tenant config work into bite-sized tasks"
+    expect_not: swandev:brainstorming
+  - prompt: "design's approved, build out the caching layer now starting with the tests"
+    expect_not: swandev:brainstorming
+  - prompt: "explain the design of the existing builder component so i understand it"
+    expect_not: swandev:brainstorming
+  - prompt: "the new component design panics on startup, figure out why"
+    expect_not: swandev:brainstorming

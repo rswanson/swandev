@@ -1,0 +1,42 @@
+# Routing cases for swandev:pr
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill pr
+
+skill: swandev:pr
+cases:
+  - prompt: "open a PR for this branch"
+    expect: swandev:pr
+    tags: [smoke]
+  - prompt: "create a pull request for the retry wrapper work"
+    expect: swandev:pr
+  - prompt: "i'm done, let's get this merged"
+    expect: swandev:pr
+  - prompt: "ship it"
+    expect: swandev:pr
+  - prompt: "ready for review, push it up"
+    expect: swandev:pr
+  - prompt: "submit this work for review"
+    expect: swandev:pr
+  - prompt: "push and open a pr against main"
+    expect: swandev:pr
+  - prompt: "the branch is finished, raise the PR"
+    expect: swandev:pr
+  - prompt: "i finished implementing the retry wrapper, open a PR"
+    expect: swandev:pr
+  # negatives — the boundary against every neighbouring skill
+  - prompt: "review the diff on this branch"
+    expect_not: swandev:pr
+    tags: [smoke]
+  - prompt: "run the tribunal on this branch before i merge"
+    expect_not: swandev:pr
+  - prompt: "why is CI failing on this PR"
+    expect_not: swandev:pr
+  - prompt: "implement task 3 of the plan"
+    expect_not: swandev:pr
+  - prompt: "design a new notifier, i have a rough idea"
+    expect_not: swandev:pr
+  - prompt: "summarise what changed on this branch"
+    expect_not: swandev:pr
+  - prompt: "what does our PR template look like"
+    expect_not: swandev:pr

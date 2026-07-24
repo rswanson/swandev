@@ -1,0 +1,53 @@
+name: routing-evals
+
+# Manual only. Every case is a real headless model run, so a full sweep costs
+# real money (~191 cases). The cheap, deterministic checks live in validate.yml
+# and gate every push; this is the one you reach for after changing a skill's
+# `description`, which is the only thing that moves these numbers.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Only run cases with this tag (e.g. smoke). Blank runs everything."
+        required: false
+        default: "smoke"
+      skill:
+        description: "Only run one skill's cases (e.g. reviewing). Blank runs all."
+        required: false
+      threshold:
+        description: "Fail the job below this pass rate (0..1)"
+        required: false
+        default: "0.75"
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run routing evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          args=""
+          [ -n "${{ inputs.tag }}" ]   && args="$args --tag ${{ inputs.tag }}"
+          [ -n "${{ inputs.skill }}" ] && args="$args --skill ${{ inputs.skill }}"
+          python3 evals/run.py $args \
+            --threshold "${{ inputs.threshold }}" \
+            --jobs 4 \
+            --json results.json
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: results.json

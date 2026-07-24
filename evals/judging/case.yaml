@@ -1,0 +1,35 @@
+# Routing cases for swandev:judging
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill judging
+
+skill: swandev:judging
+cases:
+  - prompt: "judge the findings files in .reviews/2026-07-09-141530-auth-refactor/"
+    expect: swandev:judging
+  - prompt: "which of these adversarial review findings are actually real and worth fixing"
+    expect: swandev:judging
+  - prompt: "here are three findings files from the reviewers, dedup and verify them against the code"
+    expect: swandev:judging
+  - prompt: "score these review findings and dispatch fixes for the ones i approve"
+    expect: swandev:judging
+  - prompt: "evaluate the prosecution's findings and throw out the bogus ones"
+    expect: swandev:judging
+  - prompt: "the adversarial reviewers finished, run judgment on their output"
+    expect: swandev:judging
+  - prompt: "review this diff before i merge it"
+    expect_not: swandev:judging
+  - prompt: "adversarial review this PR"
+    expect_not: swandev:judging
+  - prompt: "attack this diff from a security angle"
+    expect_not: swandev:judging
+  - prompt: "run the tribunal on my branch"
+    expect_not: swandev:judging
+  - prompt: "tear this change apart, i want every flaw"
+    expect_not: swandev:judging
+  - prompt: "implement task 3 from the plan"
+    expect_not: swandev:judging
+  - prompt: "is this PR ready to merge? give it a once-over"
+    expect_not: swandev:judging
+  - prompt: "the judge in our chess engine misscores endgames, debug it"
+    expect_not: swandev:judging

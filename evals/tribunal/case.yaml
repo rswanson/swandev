@@ -1,0 +1,37 @@
+# Routing cases for swandev:tribunal
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill tribunal
+
+skill: swandev:tribunal
+cases:
+  - prompt: "run the tribunal on this branch"
+    expect: swandev:tribunal
+    tags: [smoke]
+  - prompt: "adversarial review this PR before we merge"
+    expect: swandev:tribunal
+  - prompt: "red-team this diff"
+    expect: swandev:tribunal
+  - prompt: "tear this change apart, i want every flaw found"
+    expect: swandev:tribunal
+  - prompt: "deep audit these changes from every angle"
+    expect: swandev:tribunal
+  - prompt: "run an aggressive multi-reviewer audit on the diff against main"
+    expect: swandev:tribunal
+  - prompt: "review this diff before i merge it"
+    expect_not: swandev:tribunal
+    tags: [smoke]
+  - prompt: "check my changes and tell me if they're solid"
+    expect_not: swandev:tribunal
+  - prompt: "is this ready? give it a once-over"
+    expect_not: swandev:tribunal
+  - prompt: "attack this diff from an API ergonomics angle only"
+    expect_not: swandev:tribunal
+  - prompt: "judge the findings files in .reviews/"
+    expect_not: swandev:tribunal
+  - prompt: "execute the whole plan and parallelize it"
+    expect_not: swandev:tribunal
+  - prompt: "open a PR for this branch"
+    expect_not: swandev:tribunal
+  - prompt: "the red team exercise report needs a summary doc"
+    expect_not: swandev:tribunal

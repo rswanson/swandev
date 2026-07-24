@@ -1,0 +1,53 @@
+# Routing cases for swandev:debugging
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill debugging
+
+skill: swandev:debugging
+cases:
+  - prompt: "the go test in components/builder panics on nil, help me fix it"
+    expect: swandev:debugging
+    tags: [smoke]
+  - prompt: "why does my cargo build fail with a borrow checker error here"
+    expect: swandev:debugging
+  - prompt: "pulumi preview shows an unexpected delete, something's wrong"
+    expect: swandev:debugging
+  - prompt: "the signet website returns 500 intermittently in prod"
+    expect: swandev:debugging
+  - prompt: "this function returns the wrong value and i don't know why"
+    expect: swandev:debugging
+  - prompt: "my test was passing yesterday and now it fails, nothing obvious changed"
+    expect: swandev:debugging
+  - prompt: "getting a connection refused from the RPC client, trace it down"
+    expect: swandev:debugging
+  - prompt: "the explorer crashes on startup with this stack trace: thread main panicked"
+    expect: swandev:debugging
+  - prompt: "the cargo test is failing with a borrow checker error, help me fix it"
+    expect: swandev:debugging
+  - prompt: "the test won't pass no matter what i try"
+    expect: swandev:debugging
+  - prompt: "this is failing and the error is unexpected behavior i can't explain"
+    expect: swandev:debugging
+  - prompt: "just wrap it in a nil check to stop the panic, that'll fix it"
+    expect: swandev:debugging
+  - prompt: "why is this paniking on unwrap, no idea whats going on"
+    expect: swandev:debugging
+  - prompt: "go test ./... in the-iam blows up with a token validation error across the auth boundary"
+    expect: swandev:debugging
+  - prompt: "open a PR for this branch"
+    expect_not: swandev:debugging
+    tags: [smoke]
+  - prompt: "explain how clippy lints work in general"
+    expect_not: swandev:debugging
+  - prompt: "what's the difference between go test and go vet"
+    expect_not: swandev:debugging
+  - prompt: "review my diff for style issues"
+    expect_not: swandev:debugging
+  - prompt: "confirm the nil-pointer fix actually works by running the explorer"
+    expect_not: swandev:debugging
+  - prompt: "plan out how we'll handle RPC timeouts and connection-refused errors in the new client"
+    expect_not: swandev:debugging
+  - prompt: "CI is failing on my PR, just push the fix and merge it"
+    expect_not: swandev:debugging
+  - prompt: "the old metrics dashboard is unreliable, let's design a replacement"
+    expect_not: swandev:debugging

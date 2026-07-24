@@ -99,6 +99,48 @@ claude --plugin-dir /path/to/swandev
 `SKILL.md` edits are picked up live; run `/reload-plugins` for hooks/agents/MCP
 changes.
 
+## Routing evals
+
+Ten skills with adjacent responsibilities means routing is this plugin's main
+failure mode, so it has a test suite: 191 cases in `evals/<skill>/case.yaml`,
+each a prompt plus whether that skill must (`expect:`) or must not
+(`expect_not:`) be invoked.
+
+```
+python3 evals/run.py --parse-only        # free: just checks the case files parse
+python3 evals/run.py --tag smoke         # 12 cases, cheap
+python3 evals/run.py --skill reviewing   # one skill
+python3 evals/run.py                     # all 191 — real model runs, real money
+```
+
+Each case is a headless `claude -p` run with the plugin loaded; the runner
+records which skills the model actually invoked. Stdlib only, no dependencies.
+
+`claude plugin eval` is the official runner and would replace this — the case
+files use its documented `evals/<skill>/case.yaml` layout so the port is
+mechanical — but it is early-access gated at time of writing and currently runs
+nothing.
+
+**Results are noisy.** One run per case, and routing is not deterministic;
+treat a single failure as a signal to re-run, not as a regression. Only the
+`validate` workflow gates pushes — evals are `workflow_dispatch` because a full
+sweep costs real money.
+
+### Known routing baseline
+
+Cutting the trigger descriptions to one line each (0.5.0) traded auto-routing
+for context. Measured on the smoke subset, single run per case:
+
+| descriptions | chars | smoke pass rate |
+| --- | --- | --- |
+| 0.4.0, full trigger prose | 7,558 | 75% |
+| 0.5.0, one line each | 1,395 | 58% |
+
+Explicit invocation is unaffected — every skill still fires reliably when named.
+What was lost is inference from intent alone ("review this diff", "this test is
+failing"). That is the intended trade for a plugin driven by explicit
+invocation; it is the wrong trade if you rely on skills firing unprompted.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

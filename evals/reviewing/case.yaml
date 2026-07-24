@@ -1,0 +1,49 @@
+# Routing cases for swandev:reviewing
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill reviewing
+
+skill: swandev:reviewing
+cases:
+  - prompt: "review this diff before i merge it"
+    expect: swandev:reviewing
+    tags: [smoke]
+  - prompt: "can you code review the changes on my branch"
+    expect: swandev:reviewing
+  - prompt: "check my changes in components/builder for bugs and style"
+    expect: swandev:reviewing
+  - prompt: "does this implementation actually match the spec we wrote"
+    expect: swandev:reviewing
+  - prompt: "is this PR ready to merge? give it a once-over first"
+    expect: swandev:reviewing
+  - prompt: "review task 3's implementation against its requirements"
+    expect: swandev:reviewing
+  - prompt: "go over the diff on this branch and flag anything sketchy"
+    expect: swandev:reviewing
+  - prompt: "look at my changes and tell me if they're solid before i push"
+    expect: swandev:reviewing
+  - prompt: "open a PR for this branch"
+    expect_not: swandev:reviewing
+    tags: [smoke]
+  - prompt: "ship it, let's get this merged"
+    expect_not: swandev:reviewing
+  - prompt: "the cargo test panics on nil, why"
+    expect_not: swandev:reviewing
+  - prompt: "implement task 3 from the plan"
+    expect_not: swandev:reviewing
+  - prompt: "write the code for the stack-name validator"
+    expect_not: swandev:reviewing
+  - prompt: "let's design a new caching layer, not sure on the shape"
+    expect_not: swandev:reviewing
+  - prompt: "execute the whole plan and parallelize it"
+    expect_not: swandev:reviewing
+  - prompt: "the test won't pass no matter what, help me debug it"
+    expect_not: swandev:reviewing
+  - prompt: "adversarial review this PR"
+    expect_not: swandev:reviewing
+  - prompt: "red-team this diff and tear it apart"
+    expect_not: swandev:reviewing
+  - prompt: "run the tribunal on my branch"
+    expect_not: swandev:reviewing
+  - prompt: "judge the findings files from the adversarial review"
+    expect_not: swandev:reviewing

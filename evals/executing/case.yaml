@@ -1,0 +1,41 @@
+# Routing cases for swandev:executing
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill executing
+
+skill: swandev:executing
+cases:
+  - prompt: "ok the plan's approved, execute it"
+    expect: swandev:executing
+  - prompt: "run the whole implementation plan and parallelize where you can"
+    expect: swandev:executing
+  - prompt: "let's implement the plan for the multi-tenant config work"
+    expect: swandev:executing
+  - prompt: "work through all the tasks in docs/plans/2026-05-30-auth-flow.md"
+    expect: swandev:executing
+  - prompt: "kick off the build, run the independent tasks in parallel"
+    expect: swandev:executing
+  - prompt: "start the implementation, all the waves"
+    expect: swandev:executing
+  - prompt: "the plan has 8 tasks, go build all of them"
+    expect: swandev:executing
+  - prompt: "execute the dns-stack migration plan end to end"
+    expect: swandev:executing
+  - prompt: "implement task 3 from the plan"
+    expect_not: swandev:executing
+  - prompt: "write the code for the stack-name validator"
+    expect_not: swandev:executing
+  - prompt: "break the approved spec into bite-sized tasks"
+    expect_not: swandev:executing
+  - prompt: "let's design a new caching layer, not sure on the shape yet"
+    expect_not: swandev:executing
+  - prompt: "the cargo test panics on nil, fix it"
+    expect_not: swandev:executing
+  - prompt: "open a PR for this branch"
+    expect_not: swandev:executing
+  - prompt: "how should we sequence the work for this refactor?"
+    expect_not: swandev:executing
+  - prompt: "just do the first task"
+    expect_not: swandev:executing
+  - prompt: "build out the caching layer now"
+    expect_not: swandev:executing

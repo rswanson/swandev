@@ -1,0 +1,4 @@
+.reviews/
+evals/results/
+results.json
+__pycache__/

@@ -1,0 +1,51 @@
+# Routing cases for swandev:planning
+# expect:     this prompt MUST invoke the named skill
+# expect_not: this prompt MUST NOT invoke the named skill
+# Run with: python3 evals/run.py --skill planning
+
+skill: swandev:planning
+cases:
+  - prompt: "ok the spec is approved, write the implementation plan"
+    expect: swandev:planning
+  - prompt: "break this feature down into tasks i can hand to an agent"
+    expect: swandev:planning
+  - prompt: "how should we actually implement the caching layer we just designed"
+    expect: swandev:planning
+  - prompt: "turn docs/specs/2026-05-30-auth-flow-design.md into a step by step plan"
+    expect: swandev:planning
+  - prompt: "plan out the work for the multi-tenant config change"
+    expect: swandev:planning
+  - prompt: "we've got the design, now lay out the build sequence with tests"
+    expect: swandev:planning
+  - prompt: "i need bite-sized tasks for this refactor before we start coding"
+    expect: swandev:planning
+  - prompt: "write a plan to migrate the dns stack to the new component"
+    expect: swandev:planning
+  - prompt: "breka this down into small steps i can build before i start coding"
+    expect: swandev:planning
+  - prompt: "produce a detailed implementation plan for the approved auth-flow design"
+    expect: swandev:planning
+  - prompt: "the plan is missing the error-path tasks, add steps for them with the actual test code"
+    expect: swandev:planning
+  - prompt: "sequence the tasks for the dns-stack migration and lay out the commit points"
+    expect: swandev:planning
+  - prompt: "let's brainstorm a new notifier feature, not sure what i want yet"
+    expect_not: swandev:planning
+  - prompt: "the test i just wrote is failing, help me fix it"
+    expect_not: swandev:planning
+  - prompt: "implement the retry wrapper now"
+    expect_not: swandev:planning
+  - prompt: "open a PR for this branch"
+    expect_not: swandev:planning
+  - prompt: "explain how this existing function works"
+    expect_not: swandev:planning
+  - prompt: "review my pulumi diff before i apply it"
+    expect_not: swandev:planning
+  - prompt: "i'm working through the plan, start on task 3"
+    expect_not: swandev:planning
+  - prompt: "let's plan out a new alerting feature, i'm not sure what it should even do yet"
+    expect_not: swandev:planning
+  - prompt: "how should i implement the fix for this nil-panic in components/builder"
+    expect_not: swandev:planning
+  - prompt: "give me a rough timeline and estimate for the multi-tenant config work"
+    expect_not: swandev:planning

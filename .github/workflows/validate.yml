@@ -1,0 +1,42 @@
+name: validate
+
+# Cheap, deterministic, no API key: catches exactly the class of bug that
+# shipped in 0.3.0 -- unparseable skill frontmatter and desynced manifest
+# versions, both invisible because the validating command itself was broken.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin manifest and every skill's frontmatter
+        run: claude plugin validate .claude-plugin/plugin.json
+
+      - name: Manifest versions must stay in sync
+        run: |
+          plugin=$(jq -r .version .claude-plugin/plugin.json)
+          market=$(jq -r '.plugins[0].version' .claude-plugin/marketplace.json)
+          echo "plugin.json=$plugin marketplace.json=$market"
+          if [ "$plugin" != "$market" ]; then
+            echo "::error::version desync -- plugin.json is $plugin but marketplace.json is $market"
+            exit 1
+          fi
+
+      - name: Eval case files must parse
+        run: python3 evals/run.py --parse-only
+        # Parses every case.yaml and exits without running a single case, so it
+        # costs nothing. A malformed file raises rather than silently reading
+        # as "no cases" -- an eval suite that quietly shrinks to zero is worse
+        # than one that fails loudly.
