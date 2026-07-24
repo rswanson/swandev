@@ -1,6 +1,6 @@
 ---
 name: debugging
-description: "Root-cause-first investigation of an observed defect before any fix is attempted. Invoke explicitly, when something that should already work is failing."
+description: Use this when code that is supposed to already work exhibits an UNEXPECTED, OBSERVED defect — a bug, crash, panic, wrong output, regression, or a test/CI failure you cannot explain — BEFORE proposing or attempting a fix, even when the user already proposes a fix ("just add a nil-check"). Trigger when the user says "this is failing", "why does this break", "it panics", "the test won't pass", "unexpected behavior", or pastes an error or stack trace. EXCLUDES expected failures during an active TDD red step (a test you just wrote for code that does not exist yet), compile/undefined-symbol errors from not-yet-written code, and merely writing new error-handling/error-branch code — use swandev:tdd for those. If a crash/panic/wrong-output is happening NOW, run this FIRST to confirm root cause, then hand the red→green regression cycle to swandev:tdd. If the user already has a fix in hand and only wants to push/ship/merge it, that is swandev:pr, not debugging.
 ---
 
 # Systematic Debugging

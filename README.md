@@ -128,18 +128,28 @@ sweep costs real money.
 
 ### Known routing baseline
 
-Cutting the trigger descriptions to one line each (0.5.0) traded auto-routing
-for context. Measured on the smoke subset, single run per case:
+0.5.0 cut the trigger descriptions hard, then restored the full prose for the
+two skills that most need to fire when you *didn't* think to ask for them —
+`debugging` and `reviewing`. Measured on the smoke subset, one run per case:
 
 | descriptions | chars | smoke pass rate |
 | --- | --- | --- |
-| 0.4.0, full trigger prose | 7,558 | 75% |
-| 0.5.0, one line each | 1,395 | 58% |
+| 0.4.0, full trigger prose everywhere | 7,558 | 75% |
+| all ten cut to one line | 1,395 | 58% |
+| **0.5.0 — eight cut, `debugging`+`reviewing` restored** | **2,862** | **83%** |
 
-Explicit invocation is unaffected — every skill still fires reliably when named.
-What was lost is inference from intent alone ("review this diff", "this test is
-failing"). That is the intended trade for a plugin driven by explicit
-invocation; it is the wrong trade if you rely on skills firing unprompted.
+**Read these numbers with care.** 12 cases, one run each. In the third arm
+`debugging` and `reviewing` passed with description text *identical* to the
+first arm, where both failed — that is run-to-run variance, not an improvement
+earned by the change. The defensible conclusions are only the coarse ones:
+cutting every description hurts intent-based routing, restoring the two
+load-bearing ones recovers most of it, and 8 of 10 skills lose nothing
+measurable by being one line long.
+
+Explicit invocation is unaffected in every arm — skills fire reliably when
+named. What the cut trades away is inference from intent alone, which is the
+right trade for a plugin driven by explicit invocation and the wrong one if you
+rely on skills firing unprompted.
 
 ## License
 
