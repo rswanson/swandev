@@ -1,0 +1,18 @@
+[
+  {"query": "implement batch 1 from the audit-log batch plan", "should_trigger": true},
+  {"query": "batch 2 merged, keep going with the next batch", "should_trigger": true},
+  {"query": "start building the first slice of the batch plan", "should_trigger": true},
+  {"query": "next batch", "should_trigger": true},
+  {"query": "the batch plan is approved, kick off batch one", "should_trigger": true},
+  {"query": "run the remaining batches one at a time, i'll merge each PR", "should_trigger": true},
+  {"query": "pick up the next pending batch and take it to a green PR", "should_trigger": true},
+  {"query": "i merged the drift-dashboard PR, continue the plan", "should_trigger": true},
+  {"query": "i have an idea for a caching layer, not sure on the shape yet", "should_trigger": false},
+  {"query": "spec's approved, slice it into batches", "should_trigger": false},
+  {"query": "the batch's tests pass locally but CI fails with a panic i don't understand", "should_trigger": false},
+  {"query": "red-team the diff before i merge it", "should_trigger": false},
+  {"query": "judge the findings in .reviews and fix the good ones", "should_trigger": false},
+  {"query": "explain how the existing dns stack resolves records", "should_trigger": false},
+  {"query": "what's the build order for the spec", "should_trigger": false},
+  {"query": "rename this variable across the file", "should_trigger": false}
+]
