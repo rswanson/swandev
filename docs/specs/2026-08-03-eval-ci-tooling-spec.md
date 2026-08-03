@@ -1,6 +1,6 @@
 # Eval & CI tooling for swandev — spec
 
-Status: DRAFT — under user review
+Status: APPROVED (2026-08-03 — user accepted all ledger defaults)
 Date: 2026-08-03
 Base: stacked on `feat/v2-spec-driven-workflow` (PR #3); PR targets that branch
 until #3 merges, then retargets main.
@@ -109,17 +109,17 @@ plugin's `skills/`). Rule it enforces, mechanically:
 - README gets a short "Quality checks" section documenting the three tiers and
   that Tier 2/3 need a logged-in `claude` CLI.
 
-## Assumption ledger (confirm or override at review)
+## Decision log (all ledger entries resolved by user, 2026-08-03)
 
-| # | Question | Proposed default | Status |
-|---|----------|------------------|--------|
-| 1 | Context-footprint BUDGET | 2500 estimated tokens (current footprint printed at implementation; if it exceeds 2000 already, budget = current + 25%, rounded up to nearest 100) | OPEN |
-| 2 | Tier 2 concurrency / votes | 8 concurrent `claude -p` processes, 1 vote per query (~124 queries ≈ a few minutes) | OPEN |
-| 3 | Tier 2/3 eval model | `claude-haiku-4-5` via `--model` (cheap, fast, consistent; harder routing test than a smarter model — a floor pass on Haiku is a strong signal) | OPEN |
-| 4 | e2e `--max-turns` | 6 (enough for explore + skill invoke + question; keeps a runaway scenario cheap) | OPEN |
-| 5 | Batches land as sequential commits in ONE stacked PR (per-batch PRs impossible while base #3 is unmerged) | yes | OPEN |
+| # | Question | Decision |
+|---|----------|----------|
+| 1 | Context-footprint BUDGET | 2500 estimated tokens (if current footprint already exceeds 2000, budget = current + 25%, rounded up to nearest 100) |
+| 2 | Tier 2 concurrency / votes | 8 concurrent `claude -p` processes, 1 vote per query |
+| 3 | Tier 2/3 eval model | `claude-haiku-4-5` via `--model` |
+| 4 | e2e `--max-turns` | 6 |
+| 5 | Batch delivery | sequential commits in ONE stacked PR (per-batch PRs impossible while base #3 is unmerged) |
 
-## Batches (v2-style slices, pending ledger resolution)
+## Batches (v2-style slices)
 
 1. **B1 — lint + CI:** Makefile (`lint` target), `scripts/lint.py`, workflow.
    Observable: `make lint` passes locally; green "lint" check appears on the PR.
