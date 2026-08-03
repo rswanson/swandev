@@ -1,6 +1,6 @@
 ---
 name: debugging
-description: Use this when code that is supposed to already work exhibits an UNEXPECTED, OBSERVED defect — a bug, crash, panic, wrong output, regression, or a test/CI failure you cannot explain — BEFORE proposing or attempting a fix, even when the user already proposes a fix ("just add a nil-check"). Trigger when the user says "this is failing", "why does this break", "it panics", "the test won't pass", "unexpected behavior", or pastes an error or stack trace. EXCLUDES expected failures during an active TDD red step (a test you just wrote for code that does not exist yet), compile/undefined-symbol errors from not-yet-written code, and merely writing new error-handling/error-branch code — use swandev:tdd for those. If a crash/panic/wrong-output is happening NOW, run this FIRST to confirm root cause, then hand the red→green regression cycle to swandev:tdd. If the user already has a fix in hand and only wants to push/ship/merge it, that is swandev:pr, not debugging.
+description: Use this when code that is supposed to already work exhibits an UNEXPECTED, OBSERVED defect — a bug, crash, panic, wrong output, regression, or a test/CI failure you cannot explain — BEFORE proposing or attempting a fix, even when the user already proposes a fix ("just add a nil-check"). Trigger when the user says "this is failing", "why does this break", "it panics", "the test won't pass", "unexpected behavior", or pastes an error or stack trace. EXCLUDES expected failures during a batch's acceptance-test red step (a test just written for behavior that does not exist yet), compile/undefined-symbol errors from not-yet-written code, and merely writing new error-handling/error-branch code — those belong to swandev:implementing. If a crash/panic/wrong-output is happening NOW, run this FIRST to confirm root cause, then hand the red→green regression cycle back to the swandev:implementing loop. If the user already has a fix in hand and only wants to push/ship/merge it, that is swandev:implementing's ship step, not debugging.
 ---
 
 # Systematic Debugging
@@ -22,7 +22,7 @@ State a hypothesis grounded in evidence before touching code.
 ## Phase 2 — Fix the root cause
 
 - Address the cause the evidence points to, not the symptom.
-- A bugfix ALWAYS gets a regression test FIRST — write it (or hand the red→green cycle to `swandev:tdd`), confirm it fails before the fix and passes after. Do NOT close out the bug without this test.
+- A bugfix ALWAYS gets a regression test FIRST — write it (or hand the red→green cycle to a `swandev:implementing` fix pass), confirm it fails before the fix and passes after. Do NOT close out the bug without this test.
 - For flag/env-gated paths, confirm BOTH that the code path is enabled AND that all required config is set (including empty-string defaults).
 
 ## Phase 3 — Verify

@@ -1,6 +1,6 @@
 ---
 name: tribunal
-description: Use this to run a FULL ADVERSARIAL REVIEW PIPELINE on a diff/branch/PR — fan out parallel single-lens swandev:prosecuting agents (correctness, API ergonomics, architectural drift, security, performance, test adequacy, merge-worthiness), then hand all findings files to one swandev:judging pass (verify → user gate → dispatch fixes). This is the heavyweight, explicitly-invoked deep audit. Trigger on "adversarial review", "red-team this diff/PR", "tear this apart", "run the tribunal", "deep audit this change". Do NOT trigger for an ordinary review ("review this diff", "check my changes", "is this ready" — that's swandev:reviewing, the fast high-signal gate), for a single-lens attack (that's swandev:prosecuting), or when findings files already exist and only need judging (that's swandev:judging).
+description: Use this to run a FULL ADVERSARIAL REVIEW PIPELINE on a diff/branch/PR — fan out parallel single-lens swandev:prosecuting agents (correctness, API ergonomics, architectural drift, security, performance, test adequacy, merge-worthiness), then hand all findings files to one swandev:judging pass (verify → user gate → dispatch fixes). This is the heavyweight, explicitly-invoked deep audit. Trigger on "adversarial review", "red-team this diff/PR", "tear this apart", "run the tribunal", "deep audit this change". Do NOT trigger for an ordinary review ("review this diff", "check my changes", "is this ready" — that's the fresh-context per-batch review inside swandev:implementing), for a single-lens attack (that's swandev:prosecuting), or when findings files already exist and only need judging (that's swandev:judging).
 ---
 
 # Tribunal
@@ -82,5 +82,5 @@ any missing lenses. The judge owns verify → verdict → user gate → dispatch
 
 ## Boundary
 
-`swandev:reviewing` remains the fast per-task gate inside swandev:executing; this
-pipeline is never invoked automatically by the core loop — only explicitly.
+The fresh-context per-batch review inside `swandev:implementing` remains the fast
+gate; this pipeline is never invoked automatically by the core loop — only explicitly.

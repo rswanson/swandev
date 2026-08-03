@@ -1,6 +1,6 @@
 ---
 name: judging
-description: Use this to JUDGE adversarial-review findings files (produced by swandev:prosecuting) — dedup them, VERIFY every claim against the actual code, score validity × value, write a verdict file, present accepted findings for USER APPROVAL, then dispatch the approved fixes to Sonnet implementer subagents. Trigger when the user points at findings file(s) ("judge these findings", "which of these findings are real", "score the findings in .reviews/ and fix the good ones"), or when swandev:tribunal hands over a run directory. Do NOT trigger to GENERATE findings (that's swandev:prosecuting for one lens, swandev:tribunal for the full pipeline), or for a normal review of a diff with no findings files involved (that's swandev:reviewing).
+description: Use this to JUDGE adversarial-review findings files (produced by swandev:prosecuting) — dedup them, VERIFY every claim against the actual code, score validity × value, write a verdict file, present accepted findings for USER APPROVAL, then dispatch the approved fixes to Sonnet implementer subagents. Trigger when the user points at findings file(s) ("judge these findings", "which of these findings are real", "score the findings in .reviews/ and fix the good ones"), or when swandev:tribunal hands over a run directory. Do NOT trigger to GENERATE findings (that's swandev:prosecuting for one lens, swandev:tribunal for the full pipeline), or for a normal review of a diff with no findings files involved (that's the fresh-context per-batch review inside swandev:implementing).
 ---
 
 # Judging
@@ -73,7 +73,7 @@ listing the accepted findings; the user picks which to fix. "Fix all" and
   file go in one group.
 - One Sonnet implementer per group: `Agent` tool, `model: sonnet`,
   `isolation: 'worktree'` whenever more than one group runs in parallel.
-- Lean fix prompt per group (do NOT invoke swandev:tdd — findings are narrow):
+- Lean fix prompt per group (do NOT invoke swandev:implementing — findings are narrow):
 
 ```text
 Fix the following verified code-review finding(s) in <worktree/branch>.
@@ -91,7 +91,7 @@ House rules:
   If not, one re-dispatch with what was wrong; after that, report it unresolved
   with the failure output. No silent retry loops.
 - If parallel groups conflict on merge, the grouping was wrong — stop and
-  re-group (same rule as swandev:executing).
+  re-group before re-dispatching.
 
 ## Malformed input
 
