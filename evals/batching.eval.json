@@ -1,0 +1,18 @@
+[
+  {"query": "the audit-log spec is approved, slice it into deployable batches", "should_trigger": true},
+  {"query": "spec's done — break the multi-tenant config work into the smallest shippable chunks", "should_trigger": true},
+  {"query": "what's the smallest first slice of the auth-flow spec we could merge on its own", "should_trigger": true},
+  {"query": "turn the approved caching-layer spec into a batch plan", "should_trigger": true},
+  {"query": "what order should we ship the drift-dashboard spec in", "should_trigger": true},
+  {"query": "spec looks good. now slice it so every batch is user-visible and CI-green on its own", "should_trigger": true},
+  {"query": "batch out the notifier spec, smallest deployable increments", "should_trigger": true},
+  {"query": "we approved the spec yesterday — write the batch plan doc", "should_trigger": true},
+  {"query": "i have an idea for a drift dashboard, help me figure out what to build", "should_trigger": false},
+  {"query": "let's spec out the new auth flow first", "should_trigger": false},
+  {"query": "implement batch 3", "should_trigger": false},
+  {"query": "next batch please, the last PR merged", "should_trigger": false},
+  {"query": "the test won't pass and i can't tell why", "should_trigger": false},
+  {"query": "deep audit this change before we merge", "should_trigger": false},
+  {"query": "explain the design of the existing builder component", "should_trigger": false},
+  {"query": "judge the findings in .reviews and fix the good ones", "should_trigger": false}
+]

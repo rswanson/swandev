@@ -1,0 +1,22 @@
+[
+  {"query": "let's build a little dashboard to track our Pulumi stack drift over time", "should_trigger": true},
+  {"query": "i want to add a retry wrapper around our RPC client, thinking exponential backoff", "should_trigger": true},
+  {"query": "help me spec out a new CLI for bulk-renaming files", "should_trigger": true},
+  {"query": "thinking about adding a caching layer to the explorer service, not sure how yet", "should_trigger": true},
+  {"query": "we should nail down every detail of the new auth flow before i touch code", "should_trigger": true},
+  {"query": "i've got a rough idea for a CI-failure notifier, wanna flesh it out into a full spec", "should_trigger": true},
+  {"query": "what's the best way to model multi-tenant config in the-iam stack? haven't figured out the shape yet", "should_trigger": true},
+  {"query": "greenfield pulumi stack for staging dns, no idea on layout yet, interview me", "should_trigger": true},
+  {"query": "i wanna redesign how the explorer dedupes events, it double counts today", "should_trigger": true},
+  {"query": "new feature: user-facing audit log. lots of open questions, ask away", "should_trigger": true},
+  {"query": "the audit-log spec is approved, slice it into deployable batches", "should_trigger": false},
+  {"query": "spec's done, what's the smallest first slice we can ship", "should_trigger": false},
+  {"query": "implement batch 2 from the batch plan", "should_trigger": false},
+  {"query": "batch 1 is merged, keep going with the next one", "should_trigger": false},
+  {"query": "fix the failing go test in components/builder, it panics on nil", "should_trigger": false},
+  {"query": "why does the pulumi preview show an unexpected delete", "should_trigger": false},
+  {"query": "run an adversarial review on this PR, tear it apart", "should_trigger": false},
+  {"query": "rename this variable across the file", "should_trigger": false},
+  {"query": "explain how the existing dns stack resolves records", "should_trigger": false},
+  {"query": "run cargo fmt and push the changes", "should_trigger": false}
+]

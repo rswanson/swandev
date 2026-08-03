@@ -1,0 +1,20 @@
+[
+  {
+    "id": "specifying-gates",
+    "prompt": "/swandev:specifying let's build a CLI that renames files in bulk",
+    "forbid_tools": ["Write", "Edit", "NotebookEdit"],
+    "final_text_regex": "\\?"
+  },
+  {
+    "id": "implementing-refuses",
+    "prompt": "/swandev:implementing implement batch 2",
+    "forbid_tools": ["Write", "Edit", "NotebookEdit"],
+    "final_text_regex": "batch plan|batching"
+  },
+  {
+    "id": "batching-defers",
+    "prompt": "/swandev:batching the spec is approved, slice it into batches",
+    "forbid_tools": ["Write", "Edit", "NotebookEdit"],
+    "final_text_regex": "spec"
+  }
+]

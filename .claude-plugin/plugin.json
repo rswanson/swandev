@@ -1,9 +1,9 @@
 {
   "name": "swandev",
-  "description": "Development workflow skills: brainstorming, planning, parallel-first execution, test-driven implementation (with an atomic-change fast path), two-stage reviewing, systematic debugging, and PR creation, plus an adversarial review pipeline (multi-lens prosecutors, verifying judge, user-gated fix dispatch).",
-  "version": "0.4.0",
+  "description": "Spec-driven development workflow skills: interrogative spec building with an assumption ledger (no silent assumptions), batching into the smallest user-visible deployable slices, per-batch implementation via fresh Sonnet subagents (acceptance-tests-first, fresh-context review, CI-green PR), plus systematic debugging and an adversarial review pipeline (multi-lens prosecutors, verifying judge, user-gated fix dispatch).",
+  "version": "2.0.0",
   "author": {
     "name": "Swanny"
   },
-  "keywords": ["skills", "workflow", "tdd", "debugging", "planning", "brainstorming"]
+  "keywords": ["skills", "workflow", "spec-driven", "batching", "acceptance-tests", "debugging"]
 }
