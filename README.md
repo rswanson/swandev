@@ -96,6 +96,32 @@ claude --plugin-dir /path/to/swandev
 `SKILL.md` edits are picked up live; run `/reload-plugins` for hooks/agents/MCP
 changes.
 
+## Quality checks
+
+Three tiers, each stricter (and more expensive) than the last:
+
+- **Tier 1 — `make lint`.** Deterministic, free, python3 stdlib only.
+  Structural checks: eval/manifest JSON validity, SKILL.md frontmatter,
+  skill/eval bijection, dangling `swandev:<name>` references, manifest
+  version sync, and a context-footprint budget. Also runs in CI on every
+  PR via `.github/workflows/lint.yml`.
+- **Tier 2 — `make eval`.** Routing accuracy: every skill's frontmatter
+  description is pitted against its `evals/*.eval.json` queries via
+  headless `claude -p`. Floors: overall accuracy ≥ 90%, each skill ≥ 80%.
+  Prints a per-skill table and writes a gitignored `eval-results.json`.
+- **Tier 3 — `make e2e`.** Behavioral scenarios: each explicitly invokes a
+  skill (`/swandev:<skill> ...`) headless and asserts its hard gates hold
+  (e.g. `specifying` interrogates instead of building). Prints
+  per-scenario pass/fail.
+
+`make test` runs all three (`lint eval e2e`) as one shorthand.
+
+Tiers 2 and 3 need a logged-in `claude` CLI — they cannot run in CI (no
+credentials there), which is why they're Makefile targets, not workflows.
+
+The project-scoped `pre-pr-gate` skill (`.claude/skills/pre-pr-gate/`)
+enforces these gates before any PR from this repo.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
