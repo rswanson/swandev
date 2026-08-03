@@ -1,45 +1,55 @@
 # swandev
 
-Development workflow skills for Claude Code, packaged as a plugin: an
-idea → spec → plan → parallel execution → review → PR pipeline, plus an
-optional adversarial deep-audit branch.
+Spec-driven development workflow skills for Claude Code, packaged as a plugin:
+interrogate an idea into a high-detail spec, slice it into the smallest
+deployable batches, ship each batch as its own CI-green PR — plus an optional
+adversarial deep-audit branch.
 
 ## Skills
 
-- `swandev:brainstorming` — idea → design/spec via dialogue
-- `swandev:planning` — spec → step-by-step implementation plan, grouped into dependency-aware waves
-- `swandev:executing` — orchestrate a plan: run each wave's independent tasks concurrently in isolated worktrees
-- `swandev:tdd` — the per-task test-first loop (red → green → refactor → commit)
-- `swandev:reviewing` — two-stage review (spec-compliance, then code-quality) of a diff or task
-- `swandev:prosecuting` — one-lens adversarial reviewer: exhaustive case that a diff is bad, written to a findings file
-- `swandev:judging` — verify/score adversarial findings against the code, user-gated dispatch of fixes to Sonnet implementers
-- `swandev:tribunal` — orchestrate the adversarial pipeline: parallel prosecutors (one per lens) → one judge
+- `swandev:specifying` — idea → high-detail spec via one-question-at-a-time
+  dialogue; an assumption ledger blocks approval until every unknown is
+  user-resolved
+- `swandev:batching` — approved spec → strictly serial batch plan; every batch
+  is the smallest user-visible vertical slice that merges with CI green
+- `swandev:implementing` — one batch → one merge-ready PR; fresh Sonnet
+  subagents write acceptance-tests-first code and review it fresh-context,
+  the session model orchestrates
 - `swandev:debugging` — root-cause-first debugging discipline
-- `swandev:pr` — create a PR with local CI validation
+- `swandev:prosecuting` — one-lens adversarial reviewer: exhaustive case that a
+  diff is bad, written to a findings file
+- `swandev:judging` — verify/score adversarial findings against the code,
+  user-gated dispatch of fixes to Sonnet implementers
+- `swandev:tribunal` — orchestrate the adversarial pipeline: parallel
+  prosecutors (one per lens) → one judge
 
 ## Workflow loop
 
 ```
-brainstorming → planning → executing → pr
-   (spec)        (waves)   (parallel)   (ship)
-                              │
-                              ├── per task: tdd → reviewing
-                              └── on any failure: debugging
+specifying ──→ batching ──→ implementing (batch 1) ──→ PR, CI green ──→ you merge
+   (spec)      (slices)     implementing (batch 2) ──→ ...
+                            implementing (batch N) ──→ done
 ```
 
-Each skill hands off to the next. `executing` runs the plan's independent tasks in
-parallel (worktree-isolated), dispatching each to `tdd` then gating it on `reviewing`
-(spec-compliance, then code-quality); `debugging` is invoked any time a bug, test
-failure, or unexpected behavior appears. For a single one-off change, go straight to
-`tdd`. For a **genuinely atomic** change (typo, config value, dep bump), `tdd` has a
-**fast path** that collapses the loop to verify → one commit → inline self-review,
-skipping worktree orchestration and the separate `reviewing` dispatch.
+`specifying` builds the spec section by section, refusing approval while any
+assumption-ledger entry is unresolved — the model never runs on silent
+assumptions. `batching` slices the approved spec into strictly serial batches:
+each the smallest user-visible vertical slice that merges to main with CI
+green (trunk-based — "deployable" means main stays releasable; no dark code,
+no feature flags). `implementing` takes exactly one batch per invocation to a
+merge-ready PR and stops — you merge, then the next invocation picks up the
+next batch. `debugging` is invoked any time an unexpected defect appears.
+
+**Model tiering:** `specifying`, `batching`, and all orchestration run on the
+session model (Opus/Fable). All code inside `implementing` is written by fresh
+Sonnet subagents — an acceptance-tests-first implementer, then a fresh-context
+reviewer that sees only the diff and the batch's acceptance criteria.
 
 ## Adversarial deep audit (optional branch)
 
-For big PRs and pre-merge moments, `tribunal` runs the heavyweight audit —
-deliberately the opposite temperament of `reviewing` (which stays the fast,
-confidence-filtered per-task gate and is never replaced by this):
+For big changes and pre-merge moments, `tribunal` runs the heavyweight audit —
+deliberately the opposite temperament of `implementing`'s fast per-batch
+review gate (which is never replaced by this):
 
 ```
 tribunal ─→ N× prosecuting (parallel, one lens each) ─→ judging
