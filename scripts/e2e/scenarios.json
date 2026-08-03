@@ -9,7 +9,7 @@
     "id": "implementing-refuses",
     "prompt": "/swandev:implementing implement batch 2",
     "forbid_tools": ["Write", "Edit", "NotebookEdit"],
-    "final_text_regex": "batch plan|batching|no .*plan|approved plan"
+    "final_text_regex": "batch plan|batching"
   },
   {
     "id": "batching-defers",

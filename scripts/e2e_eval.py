@@ -59,12 +59,15 @@ def run_scenario_cli(prompt):
     """
     tmpdir = tempfile.mkdtemp(prefix="e2e_eval_")
     try:
-        init = subprocess.run(
-            ["git", "init", "-q"],
-            cwd=tmpdir,
-            capture_output=True,
-            text=True,
-        )
+        try:
+            init = subprocess.run(
+                ["git", "init", "-q"],
+                cwd=tmpdir,
+                capture_output=True,
+                text=True,
+            )
+        except OSError as exc:
+            return False, "", f"git init failed to start: {exc}"
         if init.returncode != 0:
             detail = (init.stderr or init.stdout or "").strip()
             return False, "", f"git init failed in scenario tempdir: {detail[:200]}"
@@ -130,7 +133,12 @@ def parse_stream(stdout_text):
 
         obj_type = obj.get("type")
         if obj_type == "assistant":
-            content = obj.get("message", {}).get("content", []) or []
+            message = obj.get("message")
+            if not isinstance(message, dict):
+                continue
+            content = message.get("content")
+            if not isinstance(content, list):
+                continue
             for block in content:
                 if not isinstance(block, dict):
                     continue
@@ -168,7 +176,7 @@ def evaluate_scenario(scenario, tool_calls, final_text):
             )
 
     regex = scenario.get("final_text_regex")
-    pattern = re.compile(regex, re.IGNORECASE | re.DOTALL)
+    pattern = re.compile(regex, re.IGNORECASE)
     text_ok = bool(final_text) and bool(pattern.search(final_text))
     if not text_ok:
         evidence.append(f"final text did not match /{regex}/i: {json.dumps(final_text)[:400]}")
