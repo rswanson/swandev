@@ -70,14 +70,22 @@ message:
 `scripts/e2e_eval.py` + `scripts/e2e/scenarios.json`. Each scenario runs
 `claude -p --plugin-dir <repo> --model claude-haiku-4-5 --output-format
 stream-json --verbose --max-turns 6` in a fresh temp dir (git-inited, empty),
-then asserts on the emitted event stream. Initial scenario set (one per hard
-gate):
+then asserts on the emitted event stream.
 
-| ID | Prompt | Pass condition |
+**Amendment (2026-08-03, evidence-based):** scenarios invoke their skill
+EXPLICITLY (`/swandev:<skill> <request>` as the prompt) and assert on gate
+behavior only. Headless `-p` sessions load plugin skills and expose the Skill
+tool, but neither Haiku nor Sonnet proactively invokes skills there — even
+when the system prompt demands it (reproduced across 2 models × 7 runs). Auto-
+invocation propensity is a harness property, not plugin quality; routing
+quality is already Tier 2's job. Tier 3 measures: once a skill is active, do
+its hard gates hold?
+
+| ID | Prompt | Pass condition (plus: no Write/Edit/NotebookEdit in any) |
 |----|--------|----------------|
-| specifying-gates | "let's build a CLI that renames files in bulk" | Skill tool invoked with `specifying`; NO Write/Edit tool use in the transcript |
-| implementing-refuses | "implement batch 2" | No Write/Edit tool use; final text mentions the missing batch plan (regex `batch plan|batching|no.*plan`) |
-| batching-defers | "the spec is approved, slice it into batches" | No Write/Edit; transcript invokes `batching` or final text asks for the spec (regex `spec`) |
+| specifying-gates | "/swandev:specifying let's build a CLI that renames files in bulk" | final text asks at least one question (regex `\?`) — interrogates before building |
+| implementing-refuses | "/swandev:implementing implement batch 2" | final text mentions the missing batch plan (regex `batch plan|batching|no .*plan|approved plan`) |
+| batching-defers | "/swandev:batching the spec is approved, slice it into batches" | final text asks for the spec (regex `spec`) |
 
 - Permissions: run with `--allowedTools "Skill,Read,Glob,Grep,Bash(git *)"` so
   writes are impossible by construction and nothing prompts interactively.
