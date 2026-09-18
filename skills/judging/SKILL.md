@@ -81,7 +81,7 @@ Fix the following verified code-review finding(s) in <worktree/branch>.
 <for each finding: the verdict.md block — claim, where, verification note, fix direction>
 
 House rules:
-- A bug-class fix gets a regression test that fails before and passes after.
+- A bug-class fix gets one focused regression test that would have caught it.
 - Run the project's formatter, linter, and test suite before you finish.
 - One commit per finding, message referencing the finding id.
 - Fix ONLY these findings; no drive-by refactors.

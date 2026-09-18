@@ -13,8 +13,8 @@ adversarial deep-audit branch.
 - `swandev:batching` — approved spec → strictly serial batch plan; every batch
   is the smallest user-visible vertical slice that merges with CI green
 - `swandev:implementing` — one batch → one merge-ready PR; fresh Sonnet
-  subagents write acceptance-tests-first code and review it fresh-context,
-  the session model orchestrates
+  subagents write the code (with tests covering the acceptance criteria) and
+  review it fresh-context, the session model orchestrates
 - `swandev:debugging` — root-cause-first debugging discipline
 - `swandev:prosecuting` — one-lens adversarial reviewer: exhaustive case that a
   diff is bad, written to a findings file
@@ -42,8 +42,13 @@ next batch. `debugging` is invoked any time an unexpected defect appears.
 
 **Model tiering:** `specifying`, `batching`, and all orchestration run on the
 session model (Opus/Fable). All code inside `implementing` is written by fresh
-Sonnet subagents — an acceptance-tests-first implementer, then a fresh-context
-reviewer that sees only the diff and the batch's acceptance criteria.
+Sonnet subagents — an implementer, then a fresh-context reviewer that sees
+only the diff and the batch's acceptance criteria.
+
+**Testing:** every batch's acceptance criteria must be covered by tests, at
+whatever level the project already tests at. The implementer decides when to
+write them — there is no mandated red→green ritual — and the reviewer flags
+excess tests as readily as missing ones. Lean suites over exhaustive ones.
 
 ## Adversarial deep audit (optional branch)
 
