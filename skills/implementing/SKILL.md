@@ -1,6 +1,6 @@
 ---
 name: implementing
-description: Use this when an approved batch plan (from swandev:batching) has a pending batch and the user wants it built — ONE invocation takes ONE batch from pending to a CI-green PR that the USER merges. Trigger on "implement batch N", "next batch", "start building", "kick off the first batch", or "keep going" right after a batch's PR merges. You ORCHESTRATE only; all code is written by fresh Sonnet subagents (an acceptance-tests-first implementer, then a fresh-context reviewer). Do NOT trigger without an approved batch plan — that's swandev:batching (or swandev:specifying if no spec exists); an unexpected defect mid-batch routes to swandev:debugging; an explicitly requested deep audit is swandev:tribunal.
+description: Use this when an approved batch plan (from swandev:batching) has a pending batch and the user wants it built — ONE invocation takes ONE batch from pending to a CI-green PR that the USER merges. Trigger on "implement batch N", "next batch", "start building", "kick off the first batch", or "keep going" right after a batch's PR merges. You ORCHESTRATE only; all code is written by fresh Sonnet subagents (an implementer, then a fresh-context reviewer). Do NOT trigger without an approved batch plan — that's swandev:batching (or swandev:specifying if no spec exists); an unexpected defect mid-batch routes to swandev:debugging; an explicitly requested deep audit is swandev:tribunal.
 ---
 
 # Implementing
@@ -14,7 +14,8 @@ You (the session model) orchestrate: dispatch, evaluate, ship. You do NOT write
 implementation code or tests yourself. All code comes from **fresh Sonnet
 subagents** via the Agent tool with `model: 'sonnet'`:
 
-- **Implementer** — works acceptance-tests-first in the batch worktree.
+- **Implementer** — builds the batch in the batch worktree, with tests that
+  cover its acceptance criteria.
 - **Reviewer** — fresh context by design: gets ONLY the diff and the batch's
   acceptance criteria, never the implementation conversation.
 
@@ -38,11 +39,14 @@ subagents** via the Agent tool with `model: 'sonnet'`:
    <paste the spec sections this batch implements>
 
    Rules:
-   - ACCEPTANCE TESTS FIRST: write the criteria as failing tests, run them,
-     confirm each fails for the right reason (missing behavior, not typos or
-     setup errors). Commit the red tests.
-   - Implement the minimal code that turns them green. Commit.
-   - Refactor with tests green. Commit.
+   - Every acceptance criterion ends up covered by a test, at the level this
+     project already tests at (match the existing suite; extend an existing
+     test file before creating a new one). Write tests whenever it is natural
+     — before, alongside, or after the code. No mandated red step, no
+     separate commit for failing tests.
+   - Keep the suite lean: roughly one focused test per criterion. No tests
+     for trivial glue, getters, or framework behavior; no tests that restate
+     the implementation or assert on mocks.
    - Run the project's formatter, linter, and full test suite before finishing.
    - Touch only what this batch needs; no drive-by refactors.
    - Return: files changed, test commands with their output, and anything you
@@ -58,8 +62,9 @@ subagents** via the Agent tool with `model: 'sonnet'`:
    Acceptance criteria:
    <numbered list>
 
-   Check: (a) every criterion is covered by a test that would fail without the
-   change; (b) correctness of the implementation; (c) code quality as you would
+   Check: (a) every criterion is exercised by a test, and the tests are
+   proportionate — redundant or implementation-detail tests are findings too;
+   (b) correctness of the implementation; (c) code quality as you would
    hold a PR to. Findings only, no fixes: file:line, what, severity
    (blocker / major / minor). Return the single word "clean" if nothing rises
    to a finding.
@@ -78,8 +83,9 @@ subagents** via the Agent tool with `model: 'sonnet'`:
 
 ## Failure routing
 
-- An unexpected defect (anything other than the planned red step) →
-  `swandev:debugging` for root cause, then resume the loop.
+- An unexpected defect (code that already worked now failing, as opposed to a
+  criterion not yet implemented) → `swandev:debugging` for root cause, then
+  resume the loop.
 - The user wants a heavyweight audit (typically the final batch) →
   `swandev:tribunal`, explicitly invoked only.
 

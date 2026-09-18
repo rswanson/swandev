@@ -16,8 +16,8 @@ deployable and testable on their own. The batch plan is the deliverable.
 - The **smallest** change meeting that bar. If a batch can be split into two
   slices that are each independently deployable and observable, split it.
 - **Deployable:** merges to main with CI green; main remains releasable after.
-- **Testable:** numbered acceptance criteria concrete enough that failing tests
-  can be written directly from them, plus a one-line "how to observe it".
+- **Testable:** numbered acceptance criteria concrete enough to verify — by a
+  test or by direct observation — plus a one-line "how to observe it".
 - **Slice test** every batch must pass: *"If we stopped after this batch, did
   we ship something coherent and observable?"*
 
@@ -33,7 +33,7 @@ No waves, no parallel tasks, no cross-batch file bookkeeping.
 - **Status:** pending | in-progress | merged
 - **User-visible outcome:** <1–2 sentences of observable behavior>
 - **Acceptance criteria:**
-  1. <concrete, test-derivable>
+  1. <concrete, verifiable>
   2. ...
 - **How to observe:** <command / UI action that shows the change>
 - **Touches:** <files/areas expected>
