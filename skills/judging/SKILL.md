@@ -71,7 +71,8 @@ listing the accepted findings; the user picks which to fix. "Fix all" and
 
 - Group approved findings by **disjoint file sets** — findings touching the same
   file go in one group.
-- One Sonnet implementer per group: `Agent` tool, `model: sonnet`,
+- One Sonnet implementer per group: `Agent` tool, `model: sonnet` (each
+  finding is already verified and carries a fix direction — narrow work),
   `isolation: 'worktree'` whenever more than one group runs in parallel.
 - Lean fix prompt per group (do NOT invoke swandev:implementing — findings are narrow):
 

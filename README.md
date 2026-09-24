@@ -12,7 +12,7 @@ adversarial deep-audit branch.
   user-resolved
 - `swandev:batching` — approved spec → strictly serial batch plan; every batch
   is the smallest user-visible vertical slice that merges with CI green
-- `swandev:implementing` — one batch → one merge-ready PR; fresh Sonnet
+- `swandev:implementing` — one batch → one merge-ready PR; fresh Opus
   subagents write the code (with tests covering the acceptance criteria) and
   review it fresh-context, the session model orchestrates
 - `swandev:debugging` — root-cause-first debugging discipline
@@ -42,8 +42,9 @@ next batch. `debugging` is invoked any time an unexpected defect appears.
 
 **Model tiering:** `specifying`, `batching`, and all orchestration run on the
 session model (Opus/Fable). All code inside `implementing` is written by fresh
-Sonnet subagents — an implementer, then a fresh-context reviewer that sees
-only the diff and the batch's acceptance criteria.
+subagents — an Opus implementer, then a fresh-context Opus reviewer that sees
+only the diff and the batch's acceptance criteria. Fix passes, which apply
+narrow pre-diagnosed findings, run on Sonnet.
 
 **Testing:** every batch's acceptance criteria must be covered by tests, at
 whatever level the project already tests at. The implementer decides when to
@@ -62,9 +63,10 @@ tribunal ─→ N× prosecuting (parallel, one lens each) ─→ judging
                                        verify → user gate → Sonnet fixers
 ```
 
-Cost tiering: mechanical lenses (correctness, security, performance, tests) run
-on Sonnet; taste lenses (architecture, API ergonomics, merge-worthiness) and the
-judge run on the session model. Artifacts land in a gitignored `.reviews/`
+Cost tiering: correctness and security lenses run on Opus; performance and
+test-adequacy lenses run on Sonnet (parallel, so no wall-clock cost); taste
+lenses (architecture, API ergonomics, merge-worthiness) and the judge run on
+the session model. Artifacts land in a gitignored `.reviews/`
 directory. The merge-worthiness prosecutor argues the diff shouldn't merge at
 all; a sustained motion reaches the user before any per-finding fixes.
 
