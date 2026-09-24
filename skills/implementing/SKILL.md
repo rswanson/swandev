@@ -1,6 +1,6 @@
 ---
 name: implementing
-description: Use this when an approved batch plan (from swandev:batching) has a pending batch and the user wants it built — ONE invocation takes ONE batch from pending to a CI-green PR that the USER merges. Trigger on "implement batch N", "next batch", "start building", "kick off the first batch", or "keep going" right after a batch's PR merges. You ORCHESTRATE only; all code is written by fresh Sonnet subagents (an implementer, then a fresh-context reviewer). Do NOT trigger without an approved batch plan — that's swandev:batching (or swandev:specifying if no spec exists); an unexpected defect mid-batch routes to swandev:debugging; an explicitly requested deep audit is swandev:tribunal.
+description: Use this when an approved batch plan (from swandev:batching) has a pending batch and the user wants it built — ONE invocation takes ONE batch from pending to a CI-green PR that the USER merges. Trigger on "implement batch N", "next batch", "start building", "kick off the first batch", or "keep going" right after a batch's PR merges. You ORCHESTRATE only; all code is written by fresh Opus subagents (an implementer, then a fresh-context reviewer). Do NOT trigger without an approved batch plan — that's swandev:batching (or swandev:specifying if no spec exists); an unexpected defect mid-batch routes to swandev:debugging; an explicitly requested deep audit is swandev:tribunal.
 ---
 
 # Implementing
@@ -11,13 +11,15 @@ STOP. The user merges; the next invocation takes the next batch.
 ## Model split (hard rule)
 
 You (the session model) orchestrate: dispatch, evaluate, ship. You do NOT write
-implementation code or tests yourself. All code comes from **fresh Sonnet
-subagents** via the Agent tool with `model: 'sonnet'`:
+implementation code or tests yourself. All code comes from **fresh
+subagents** via the Agent tool:
 
-- **Implementer** — builds the batch in the batch worktree, with tests that
-  cover its acceptance criteria.
-- **Reviewer** — fresh context by design: gets ONLY the diff and the batch's
-  acceptance criteria, never the implementation conversation.
+- **Implementer** (`model: 'opus'`) — builds the batch in the batch worktree,
+  with tests that cover its acceptance criteria.
+- **Reviewer** (`model: 'opus'`) — fresh context by design: gets ONLY the diff
+  and the batch's acceptance criteria, never the implementation conversation.
+- **Fixer** (`model: 'sonnet'`) — applies the reviewer's findings. Narrow and
+  pre-diagnosed work; the serial path stays on Opus, this does not need to.
 
 ## Per-batch loop
 
@@ -27,7 +29,7 @@ subagents** via the Agent tool with `model: 'sonnet'`:
    unmerged batch. Update main, create a fresh worktree + branch for this batch
    (`git worktree add ../<repo>-worktrees/<batch-id> -b feat/<batch-id>` from
    updated main). Mark the batch `in-progress` in the batch doc.
-2. **Dispatch the implementer** (Sonnet, fresh):
+2. **Dispatch the implementer** (Opus, fresh):
 
    ```text
    Implement batch <ID>: <title> in worktree <path> (branch <branch>).
@@ -53,7 +55,7 @@ subagents** via the Agent tool with `model: 'sonnet'`:
      could not satisfy.
    ```
 
-3. **Dispatch the reviewer** (Sonnet, fresh context):
+3. **Dispatch the reviewer** (Opus, fresh context):
 
    ```text
    Review this diff against the batch's acceptance criteria. You have no other
@@ -70,9 +72,9 @@ subagents** via the Agent tool with `model: 'sonnet'`:
    to a finding.
    ```
 
-4. **Fix loop.** Relay findings to a fresh Sonnet fix pass in the same
-   worktree; re-review until the reviewer returns clean. If the same finding
-   survives two fix passes, stop and show the user.
+4. **Fix loop.** Relay findings to a fresh Sonnet fix pass (`model: 'sonnet'`)
+   in the same worktree; re-review with the Opus reviewer until it returns
+   clean. If the same finding survives two fix passes, stop and show the user.
 5. **Ship.** Run the full local checks yourself (formatter, linter, tests —
    stack-appropriate, e.g. `cargo fmt --check && cargo clippy && cargo test`).
    Push. Open the PR with the batch's outcome + acceptance criteria in the

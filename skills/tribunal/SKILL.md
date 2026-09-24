@@ -29,10 +29,14 @@ every change defends its right to merge.
 
 One `prosecuting` agent per lens, in parallel, with model tiering:
 
-- **Sonnet** (`model: 'sonnet'`): correctness, security-failure-modes,
-  performance, test-adequacy — recall-oriented lenses where the judge filters.
+- **Opus** (`model: 'opus'`): correctness, security-failure-modes — finding
+  real bugs and failure modes in an unfamiliar diff is reasoning work, and a
+  miss here is a coverage hole the judge cannot recover.
+- **Sonnet** (`model: 'sonnet'`): performance, test-adequacy — recall-oriented
+  lenses where the judge filters. Prosecutors run in parallel, so wall-clock is
+  the slowest lens; these save tokens and cost no time.
 - **Session model** (omit `model`): architectural-drift, api-ergonomics,
-  merge-worthiness — taste/judgment lenses where cheap models produce nitpicks
+  merge-worthiness — taste/judgment lenses where pattern-matching produces nitpicks
   that waste judge time. merge-worthiness especially: arguing a change has no
   right to exist takes holistic judgment, not pattern-matching.
 
@@ -45,8 +49,8 @@ export const meta = {
   phases: [{ title: 'Prosecute' }],
 }
 const LENSES = [
-  { lens: 'correctness', model: 'sonnet' },
-  { lens: 'security-failure-modes', model: 'sonnet' },
+  { lens: 'correctness', model: 'opus' },
+  { lens: 'security-failure-modes', model: 'opus' },
   { lens: 'performance', model: 'sonnet' },
   { lens: 'test-adequacy', model: 'sonnet' },
   { lens: 'architectural-drift' },
