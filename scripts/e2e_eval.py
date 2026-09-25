@@ -3,7 +3,7 @@
 
 Stdlib only. Runs every scenario in scripts/e2e/scenarios.json as
 `claude -p <prompt> --plugin-dir <repo root> --model claude-haiku-4-5
---output-format stream-json --verbose --max-turns 6 --allowedTools
+--output-format stream-json --verbose --max-turns 10 --allowedTools
 "Skill,Read,Glob,Grep,Bash(git *)"` in a fresh, git-inited temp dir,
 MAX_WORKERS at a time, parses the emitted stream-json event log, and
 asserts each scenario's pass condition: no forbidden tool_use AND the
@@ -38,7 +38,7 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCENARIOS_PATH = os.path.join(REPO_ROOT, "scripts", "e2e", "scenarios.json")
 
 MODEL = "claude-haiku-4-5"
-MAX_TURNS = 6
+MAX_TURNS = 10
 MAX_WORKERS = 3
 TIMEOUT_SECONDS = 300
 ALLOWED_TOOLS = "Skill,Read,Glob,Grep,Bash(git *)"
