@@ -75,12 +75,25 @@ subagents** via the Agent tool:
 4. **Fix loop.** Relay findings to a fresh Sonnet fix pass (`model: 'sonnet'`)
    in the same worktree; re-review with the Opus reviewer until it returns
    clean. If the same finding survives two fix passes, stop and show the user.
-5. **Ship.** Run the full local checks yourself (formatter, linter, tests —
+5. **Simplify.** Once the reviewer is clean, invoke the `simplify` skill
+   (`/simplify`) in the batch worktree — always, even for tiny batches or a
+   first-pass clean. It applies reuse / simplification / efficiency cleanups
+   directly to the branch. Then absorb the fallout before anything ships:
+   - No changes → go to Ship.
+   - Changes → run the formatter, linter, and full test suite. A failure means
+     the simplification broke something: route it to a fresh Sonnet fix pass
+     (as in step 4); never ship red. Then send the post-simplify diff back
+     through the Opus reviewer (step 3) and continue the fix loop until it
+     returns clean again. If simplify removed or weakened a test that covered
+     an acceptance criterion, restore that coverage.
+   - Simplify runs once per batch; do not re-run it after the re-review's fix
+     passes, or the loop never converges.
+6. **Ship.** Run the full local checks yourself (formatter, linter, tests —
    stack-appropriate, e.g. `cargo fmt --check && cargo clippy && cargo test`).
    Push. Open the PR with the batch's outcome + acceptance criteria in the
    body. Watch CI to green (`gh pr checks --watch`). Update the batch doc
    status, hand the user the PR link, and STOP. The user merges.
-6. **Next invocation's preflight** marks the batch `merged` and proceeds to the
+7. **Next invocation's preflight** marks the batch `merged` and proceeds to the
    next pending batch.
 
 ## Failure routing
@@ -97,3 +110,5 @@ subagents** via the Agent tool:
   the user pre-approved the plan — merged main is the required starting state.
 - Never merge the PR yourself.
 - Never skip the reviewer, even for tiny batches.
+- Never open the PR without the simplify pass (step 5) having run and its
+  fallout being re-reviewed clean.
