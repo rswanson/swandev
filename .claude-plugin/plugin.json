@@ -1,7 +1,7 @@
 {
   "name": "swandev",
   "description": "Spec-driven development workflow skills: interrogative spec building with an assumption ledger (no silent assumptions), batching into the smallest user-visible deployable slices, per-batch implementation via fresh Opus subagents (acceptance-criteria-driven tests, fresh-context review, CI-green PR), plus systematic debugging and an adversarial review pipeline (multi-lens prosecutors, verifying judge, user-gated fix dispatch).",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "author": {
     "name": "Swanny"
   },
